@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const router = express.Router();
 const passport = require('../config/ppConfig');
@@ -10,6 +11,12 @@ router.get('/signup', (req, res) => {
 router.get('/login', (req, res) => {
   res.render('auth/login');
 });
+
+router.get('/logout', (req,res) => {
+  req.logout();
+  req.flash('success', 'See you next time...');
+  res.redirect('/')
+})
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
