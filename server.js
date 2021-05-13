@@ -5,14 +5,16 @@ const app = express();
 const session = require('express-session');
 const flash = require('connect-flash');
 const SECRET_SESSION = process.env.SECRET_SESSION;
+const passport = require('./config/ppConfig');
+const isLoggedIn = require('./middleware/isLoggedIn');
 
 app.set('view engine', 'ejs');
 
+//middleware
 app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
-
 app.use(session({
   secret: SECRET_SESSION,
   resave: false,
@@ -25,8 +27,12 @@ app.use((req,res,next) => {
   res.locals.currentUser = req.user;
   next();
 });
+//initialize passport
+app.use(passport.initialize());
+//add a session
+app.use(passport.session());
 
-
+//routes
 app.get('/', (req, res) => {
   res.render('index');
 });
