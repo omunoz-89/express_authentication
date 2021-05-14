@@ -12,6 +12,8 @@ const STRATEGY = new LocalStrategy({
             where: { email}
         });
         if (!user || !user.validPassword(password)) {
+            cb(null,false);
+        } else {
             cb(null,user);
         }
     } catch (err) {
@@ -38,5 +40,6 @@ passport.deserializeUser(async (id,cb) => {
 });
 
 passport.use(STRATEGY);
+
 
 module.exports = passport;

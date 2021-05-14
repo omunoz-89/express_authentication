@@ -25,8 +25,8 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: 'Either email or password is incorrect. Please try again' 
 }));
 
-router.post('/signup', async(req,res) => {
-  const {name,email,password} = req.body;
+router.post('/signup', async (req,res) => {
+  const {email,name,password} = req.body;
   try {
     const [user,created] = await db.user.findOrCreate({
       where:{email},
